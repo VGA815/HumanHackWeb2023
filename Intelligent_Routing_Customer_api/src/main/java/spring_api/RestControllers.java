@@ -1,14 +1,13 @@
 package spring_api;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
+@RequestMapping("/api")
 //@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class RestControllers {
 
@@ -32,13 +31,10 @@ public class RestControllers {
   }
  
   
-  
-
-  @RequestMapping(value = "/check_url", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<RestResponse> check_url(String url1) {
-    
-          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-  
+  @PostMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE )
+  public RestResponse processData(@RequestBody RestResponse RestResponse) {
+      
+      return RestResponse;
+  }
   
   }
