@@ -8,6 +8,7 @@ using HumanHackServer.Models;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using HumanHackServer.Services;
+using HumanHackServer.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -98,6 +99,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseMiddleware<JWTMiddleware>();
 
 app.UseAuthentication();
 
