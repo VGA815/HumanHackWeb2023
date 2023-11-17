@@ -1,0 +1,6 @@
+@HumanHackServer_HostAddress = http://localhost:5179
+
+GET {{HumanHackServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
