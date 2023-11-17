@@ -45,5 +45,18 @@ services:
 
 
 
+	Intelligent_Routing_Customer_api:
+	container_name: java-api-server
+	image: java-rest-api:latest
+	build:
+		context: .
+		dockerfile: Intelligent_Routing_Customer_api/Dockerfile
+	ports:
+		- 2020:8080 
+	networks:
+		- humanhack-dev
+	restart: always
+	
+
 volumes:
   postgres-data:

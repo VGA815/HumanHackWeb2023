@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/Intelligent_Routing_Customer_api-0.0.1.jar /app/Intelligent_Routing_Customer_api-0.0.1.jar
 
 # директория DataSet
-COPY DataSet /app/DataSet
+COPY ML /app/ML
 
 # port
 EXPOSE 8080

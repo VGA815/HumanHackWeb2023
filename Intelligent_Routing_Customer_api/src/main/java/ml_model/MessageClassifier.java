@@ -18,7 +18,8 @@ import java.io.OutputStream;
 public class MessageClassifier {
 
     private DocumentCategorizerME categorizer;
-
+    MessageClassifier classifier = new MessageClassifier("ml/model.bin");
+    
     public MessageClassifier(String modelPath) throws IOException {
         InputStream modelIn = new FileInputStream(modelPath);
         categorizer = new DocumentCategorizerME(new DoccatModel(modelIn));
@@ -59,7 +60,7 @@ public class MessageClassifier {
         // classifier.trainModel("/path/to/training/data.txt", "path/to/your/model.bin");
 
         // Пример использования модели для предсказания категории нового сообщения
-        classifier.predict("Добрый день, у меня пропали бонусы за покупки в категории \"рестораны\". Как восстановить утерянные бонусы?");
+        classifier.predict("Добрый день, у меня пропали бонусы за покупки в категории. Как восстановить утерянные бонусы?");
     }
     
 }
