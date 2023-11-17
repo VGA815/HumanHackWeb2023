@@ -12,8 +12,9 @@ using HumanHackServer.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+Role adminRole = new Role("admin");
+Role clientRole = new Role("client");
+Role employeeRole = new Role("employee");
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

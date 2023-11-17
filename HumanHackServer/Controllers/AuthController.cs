@@ -33,7 +33,7 @@ namespace HumanHackServer.Controllers
             bool isValid = _userService.IsValidUserInformation(model);
             if (isValid)
             {
-                var tokenString = GenerateJwtToken(model.Name);
+                var tokenString = GenerateJwtToken(model);
                 return Ok(new { Token = tokenString, Message = "Success" });
             }
             return BadRequest("Please pass the valid Username and Password");
@@ -50,13 +50,13 @@ namespace HumanHackServer.Controllers
         /// </summary>
         /// <returns></returns>
         /// <param name="accountId"></param>
-        private string GenerateJwtToken(string userName)
+        private string GenerateJwtToken(UserModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", userName) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email ), new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name) }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],

@@ -1,4 +1,5 @@
 ﻿using HumanHackServer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
@@ -16,10 +17,16 @@ namespace HumanHackServer.Controllers
             db = context;
         }
 
+        
         [HttpPost]
-        public async Task<IActionResult> AddUser(string jsonModel)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddEmployee(string jsonModel)
         {
             var usr = JsonSerializer.Deserialize<UserModel>(jsonModel);
+            if (usr.Role.Name == "employee")
+            {
+                return BadRequest();
+            }
             foreach (var user in db.Users.ToList())
             {
                 if (user.Email == usr.Email)
@@ -34,17 +41,19 @@ namespace HumanHackServer.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin, employee")]
         public async Task<IActionResult> GetUsers()
         {
             return Json(db.Users.ToList());
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser(int? id)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteUser(string email)
         {
-            if (id != null)
+            if (email != null)
             {
-                UserModel? user = await db.Users.FirstOrDefaultAsync(p => p.Id == id);
+                UserModel? user = await db.Users.FirstOrDefaultAsync(p => p.Email == email);
                 if (user != null)
                 {
                     db.Users.Remove(user);
@@ -56,6 +65,7 @@ namespace HumanHackServer.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> EditUser(string jsonModel)
         {
             db.Users.Update(JsonSerializer.Deserialize<UserModel>(jsonModel));
