@@ -12,9 +12,9 @@ using HumanHackServer.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Role adminRole = new Role("admin");
-Role clientRole = new Role("client");
-Role employeeRole = new Role("employee");
+Role adminRole = new Role() { Name = "admin"};
+Role clientRole = new Role() { Name = "employee"};
+Role employeeRole = new Role() { Name = "client"};
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen( swagger =>
     {
         Version = "v1",
         Title = "JWT Token Authentication API",
-        Description = "ASP.NET Core 5.0 Web API"
+        Description = "ASP.NET Core Web API"
     });
 
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()

@@ -20,10 +20,31 @@ namespace HumanHackServer.Controllers
         
         [HttpPost]
         [Authorize(Roles = "admin")]
+        [Route("admin")]
         public async Task<IActionResult> AddEmployee(string jsonModel)
         {
             var usr = JsonSerializer.Deserialize<UserModel>(jsonModel);
             if (usr.Role.Name == "employee")
+            {
+                return BadRequest();
+            }
+            foreach (var user in db.Users.ToList())
+            {
+                if (user.Email == usr.Email)
+                {
+                    return StatusCode(401);
+                }
+            }
+            db.Users.Add(usr);
+            await db.SaveChangesAsync();
+            return StatusCode(201);
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(string jsonModel)
+        {
+            var usr = JsonSerializer.Deserialize<UserModel>(jsonModel);
+            if (usr.Role.Name == "employee" || usr.Role.Name == "admin")
             {
                 return BadRequest();
             }
